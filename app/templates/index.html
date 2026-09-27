@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MediSense | Risk assessment</title><link rel="stylesheet" href="/static/styles.css"></head>
+<body>
+<header class="topbar"><a class="brand" href="/">Medi<span>Sense</span></a><p>Multiple Disease Prediction System</p><a class="disclaimer-link" href="#disclaimer">Safety notice</a></header>
+<main>
+  <section class="banner"><div><p class="eyebrow">Machine learning, used with care</p><h1>Explore a preliminary health-risk estimate.</h1><p class="lede">Choose a focused assessment. MediSense processes structured inputs through independently trained disease models, then explains the result in plain language.</p></div></section>
+  <section class="content"><div class="section-heading"><p class="eyebrow">Available assessments</p><h2>Start with one clinical data profile</h2></div><div class="disease-grid">
+  {% for spec in specs %}<article class="disease-card"><div class="card-icon">{{ loop.index }}</div><p class="eyebrow">{{ spec.dataset }}</p><h3>{{ spec.title }}</h3><p>{{ spec.note }}</p><a class="button" href="/assessment/{{ spec.key }}">Open assessment <span aria-hidden="true">→</span></a></article>{% endfor %}
+  </div></section>
+  <section id="disclaimer" class="notice"><div class="notice-mark">!</div><div><h2>Important safety notice</h2><p>MediSense is a student machine-learning project for preliminary risk assessment and learning. It does not diagnose, treat, or rule out disease. Do not delay or change care based on this result; discuss symptoms, screening, and results with a qualified healthcare professional.</p></div></section>
+</main><footer>Built for educational use. Predictions depend on limited public datasets and are not clinical guidance.</footer>
+</body></html>
