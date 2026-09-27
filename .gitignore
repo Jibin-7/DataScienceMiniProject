@@ -10,3 +10,4 @@ models/*.joblib
 models/*.json
 reports/*.png
 reports/*.csv
+data/feedback/*.jsonl
