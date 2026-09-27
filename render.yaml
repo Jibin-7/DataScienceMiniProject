@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: medisense-risk-assessment
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python scripts/train.py --all
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: PYTHONPATH
+        value: src
