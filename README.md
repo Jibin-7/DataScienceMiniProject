@@ -44,6 +44,7 @@ For every condition, `models/<disease>.json` contains selected model name, train
 - `GET /health` - service readiness.
 - `GET /api/v1/diseases` - disease catalog and expected feature fields.
 - `POST /api/v1/predict/{disease}` - risk estimate for `diabetes`, `heart`, `parkinsons`, or `breast_cancer`.
+- `POST /api/v1/feedback` - anonymous helpfulness rating (1-5) plus optional comment for an assessed disease; appended to `data/feedback/feedback.jsonl`.
 
 All API input must contain each documented numeric field and no unknown fields. A missing model returns HTTP 503 with the training command needed to create it. Inputs outside the browser's documented ranges are stopped on the client; the API schema rejects absent and unknown values.
 

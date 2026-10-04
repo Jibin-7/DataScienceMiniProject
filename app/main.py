@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import json
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,6 +26,17 @@ def _input_model(disease: str) -> type[BaseModel]:
     spec = get_spec(disease)
     fields = {feature.key: (float, Field(..., ge=feature.minimum, le=feature.maximum)) for feature in spec.features}
     return create_model(f"{spec.title.replace(' ', '')}Input", __config__=ConfigDict(extra="forbid"), **fields)
+
+
+FEEDBACK_LOG = ROOT / "data" / "feedback" / "feedback.jsonl"
+
+
+class FeedbackInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    disease: str
+    rating: int = Field(..., ge=1, le=5)
+    comment: str | None = Field(None, max_length=1000)
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -59,6 +72,25 @@ def assessment_api(disease: str, values: dict):
         raise HTTPException(503, str(exc)) from exc
     except Exception as exc:
         raise HTTPException(422, f"Unable to assess these values: {exc}") from exc
+
+
+@app.post("/api/v1/feedback")
+def feedback_api(payload: FeedbackInput):
+    if payload.disease not in SPECS:
+        raise HTTPException(404, f"Unknown disease: {payload.disease}")
+    record = {
+        "disease": payload.disease,
+        "rating": payload.rating,
+        "comment": (payload.comment or "").strip() or None,
+        "submitted_at_utc": datetime.now(UTC).isoformat(),
+    }
+    try:
+        FEEDBACK_LOG.parent.mkdir(parents=True, exist_ok=True)
+        with FEEDBACK_LOG.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+    except OSError as exc:
+        raise HTTPException(500, "Could not store feedback.") from exc
+    return {"status": "received", "message": "Thank you for your feedback!"}
 
 
 @app.get("/health")

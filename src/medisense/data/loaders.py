@@ -40,7 +40,6 @@ def _download(url: str, destination: Path, validator=None, attempts: int = 3) ->
     with suppress(OSError):
         partial.unlink()
     raise RuntimeError(f"Could not download a complete copy of {url} after {attempts} attempts. Check network access, then retry.") from last_error
-    return destination
 
 
 def load_diabetes() -> tuple[pd.DataFrame, pd.Series]:
@@ -48,11 +47,7 @@ def load_diabetes() -> tuple[pd.DataFrame, pd.Series]:
     frame = data.data.copy()
     frame.columns = [str(c) for c in frame.columns]
     target = data.target.map({"tested_positive": 1, "tested_negative": 0}).astype(int)
-    expected = ["preg", "plas", "pres", "skin", "insu", "mass", "pedi", "age"]
-    if list(frame.columns) != expected:
-        frame.columns = ["Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age"]
-    else:
-        frame.columns = ["Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age"]
+    frame.columns = ["Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age"]
     return frame, target
 
 
