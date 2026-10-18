@@ -1,6 +1,6 @@
-# MediSense: Multiple Disease Prediction System Using Machine Learning
+# MediSense | Machine Learning-Based Disease Risk Assessment
 
-MediSense is a complete mini-project that implements a unified, web-based **preliminary risk assessment** workflow for **Diabetes, Heart Disease, Parkinson's Disease, and Breast Cancer**. It follows the presentation pipeline: data collection -> preprocessing -> feature analysis -> model training -> trained disease models -> web application -> user feedback.
+MediSense is an educational web application that implements a unified **preliminary risk assessment** workflow for **Diabetes, Heart Disease, Parkinson's Disease, and Breast Cancer**. It follows the presentation pipeline: data collection -> preprocessing -> feature analysis -> model training -> trained disease models -> web application -> user feedback.
 
 > **Medical safety:** This is an educational project, not a medical device. It does not diagnose, treat, or exclude disease. Dataset-specific predictions may be inaccurate, biased, or unsuitable for an individual. Always seek a qualified clinician for symptoms, screening, diagnosis, or treatment decisions.
 
